@@ -2,7 +2,7 @@
 
 [![Code Climate](http://img.shields.io/codeclimate/github/mirego/ember-encore.svg)](https://codeclimate.com/github/mirego/ember-encore)
 
-`EmberEncore` is an adapter and a serializer to use with the Encore gem.
+`EmberEncore` is an adapter and a serializer to use with the [Encore](https://github.com/mirego/encore) gem.
 
 ## Usage
 
