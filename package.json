@@ -1,0 +1,21 @@
+{
+  "name": "ember-encore",
+  "version": "0.0.1",
+  "description": "EmberEncore is an adapter and a serializer to use with the Encore gem.",
+  "main": "dist/ember-encore.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mirego/ember-encore.git"
+  },
+  "author": "Charles Demers <cdemers@mirego.com>",
+  "license": "BSD 3-Clause",
+  "bugs": {
+    "url": "https://github.com/mirego/ember-encore/issues"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-umd": "~1.7.3"
+  }
+}

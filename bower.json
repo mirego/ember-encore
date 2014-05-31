@@ -1,0 +1,27 @@
+{
+  "name": "ember-encore",
+  "version": "0.0.1",
+  "homepage": "https://github.com/mirego/ember-encore",
+  "authors": [
+    "Charles Demers <cdemers@mirego.com>"
+  ],
+  "description": "EmberEncore is an adapter and a serializer to use with the Encore gem.",
+  "main": "dist/ember-encore.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "ember",
+    "encore"
+  ],
+  "license": "BSD 3-Clause",
+  "ignore": [
+    "**/.*",
+    "Gruntfile.js",
+    "package.json",
+    "lib",
+    "node_modules"
+  ]
+}
