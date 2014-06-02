@@ -1,4 +1,4 @@
-/*! ember-encore - v0.0.3 - 2014-06-02
+/*! ember-encore - v0.0.4 - 2014-06-02
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -86,7 +86,7 @@
             hash[link] = hash.links[link];
           } else {
             var namespace = type.store.adapterFor(type).namespace;
-            hash.links[link] = "/" + namespace + "/" + value.href;
+            hash.links[link] = "/" + namespace + value.href;
           }
         }
       }
