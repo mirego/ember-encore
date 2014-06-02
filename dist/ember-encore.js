@@ -1,4 +1,4 @@
-/*! ember-encore - v0.0.4 - 2014-06-02
+/*! ember-encore - v0.0.5 - 2014-06-02
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -81,15 +81,17 @@
     extractLinks: function(type, hash) {
       for (var link in hash.links) {
         var value = hash.links[link];
-        if (value) {
-          if (typeof value == "string") {
-            hash[link] = hash.links[link];
-          } else {
-            var namespace = type.store.adapterFor(type).namespace;
-            hash.links[link] = "/" + namespace + value.href;
-          }
+        var newKey = camelize(link);
+        if (value && value.href) {
+          var namespace = type.store.adapterFor(type).namespace;
+          hash.links[newKey] = "/" + namespace + value.href;
+          if (newKey != link) delete hash.links[link];
+        } else {
+          hash[newKey] = hash.links[link];
+          delete hash.links[link];
         }
       }
+      if (Ember.keys(hash.links).length === 0) delete hash.links;
     },
     extractLinked: function(hash) {
       for (var link in hash.linked) {
