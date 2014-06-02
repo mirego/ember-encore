@@ -1,6 +1,6 @@
 {
   "name": "ember-encore",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "EmberEncore is an adapter and a serializer to use with the Encore gem.",
   "main": "dist/ember-encore.js",
   "repository": {
