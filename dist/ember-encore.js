@@ -1,4 +1,4 @@
-/*! ember-encore - v0.0.1 - 2014-06-02
+/*! ember-encore - v0.0.3 - 2014-06-02
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -100,7 +100,7 @@
     normalize: function(type, hash) {
       if (hash && hash.links) this.extractLinks(type, hash);
       this.camelizeKeys(hash);
-      return hash;
+      return this._super(type, hash);
     },
     extractMeta: function(store, type, payload) {
       for (var key in payload.meta) {
