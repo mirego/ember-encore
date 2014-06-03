@@ -1,4 +1,4 @@
-/*! ember-encore - v0.0.5 - 2014-06-02
+/*! ember-encore - v0.0.6 - 2014-06-03
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -115,14 +115,8 @@
     serializeIntoHash: function(hash, type, record, options) {
       hash[pluralize(type.typeKey)] = [ this.serialize(record, options) ];
     },
-    serializeAttribute: function(record, json, key, attribute) {
-      if (!attribute.options.readOnly) {
-        this._super(record, json, key, attribute);
-        var newKey = underscore(key);
-        var value = get(record, key);
-        json[newKey] = value;
-        if (newKey != key) delete json[key];
-      }
+    keyForAttribute: function(key) {
+      return underscore(key);
     },
     serializeBelongsTo: function(record, json, relationship) {
       var key = relationship.key;
