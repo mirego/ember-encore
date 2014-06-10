@@ -1,4 +1,4 @@
-/*! ember-encore - v0.0.8 - 2014-06-10
+/*! ember-encore - v0.0.9 - 2014-06-10
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -69,7 +69,7 @@
       var typeKey = type.typeKey;
       for (var key in payload) {
         var payloadKey = singularize(key);
-        if (payloadKey === typeKey && isArray(payload[key])) {
+        if (payloadKey === underscore(typeKey) && isArray(payload[key])) {
           payload[payloadKey] = payload[key][0];
           break;
         }
