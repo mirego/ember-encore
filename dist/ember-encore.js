@@ -1,4 +1,4 @@
-/*! ember-encore - v0.0.7 - 2014-06-03
+/*! ember-encore - v0.0.8 - 2014-06-10
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -77,14 +77,19 @@
       delete payload[key];
       return this._super(store, type, payload, id, requestType);
     },
-    extractLinks: function(type, hash) {
+    extractLinks: function(store, type, hash) {
       for (var link in hash.links) {
         var value = hash.links[link];
         var newKey = camelize(link);
         if (value && value.href) {
-          var namespace = type.store.adapterFor(type).namespace;
-          hash.links[newKey] = "/" + namespace + value.href;
-          if (newKey != link) delete hash.links[link];
+          if (store.getById(Ember.String.singularize(newKey), value.id)) {
+            hash[newKey] = value.id;
+            delete hash.links[link];
+          } else {
+            var namespace = type.store.adapterFor(type).namespace;
+            hash.links[newKey] = "/" + namespace + value.href;
+            if (newKey != link) delete hash.links[link];
+          }
         } else {
           hash[newKey] = hash.links[link];
           delete hash.links[link];
@@ -100,7 +105,7 @@
     },
     normalize: function(type, hash) {
       hash = this._super(type, hash);
-      if (hash && hash.links) this.extractLinks(type, hash);
+      if (hash && hash.links) this.extractLinks(type.store, type, hash);
       this.camelizeKeys(hash);
       return hash;
     },
