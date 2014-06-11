@@ -1,4 +1,4 @@
-/*! ember-encore - v0.0.9 - 2014-06-10
+/*! ember-encore - v0.0.10 - 2014-06-11
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -82,7 +82,8 @@
         var value = hash.links[link];
         var newKey = camelize(link);
         if (value && value.href) {
-          if (store.getById(Ember.String.singularize(newKey), value.id)) {
+          var model = Ember.String.singularize(camelize(value.type));
+          if (store.getById(model, value.id)) {
             hash[newKey] = value.id;
             delete hash.links[link];
           } else {
