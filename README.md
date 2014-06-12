@@ -20,6 +20,13 @@ App.ApplicationAdapter = EmberEncore.Adapter.extend();
 export default EmberEncore.Adapter.extend();
 ```
 
+## Building the library
+
+- Run `npm install -g grunt-cli` to install Grunt
+- Run `npm install` to install build dependencies
+- Increment version number in `bower.json` and `package.json`
+- Run `grunt`
+
 ## License
 
 `EmberEncore` is © 2014 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).
