@@ -1,4 +1,4 @@
-/*! ember-encore - v0.0.10 - 2014-06-11
+/*! ember-encore - v0.0.11 - 2014-06-13
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -119,7 +119,7 @@
       delete payload.meta;
     },
     serializeIntoHash: function(hash, type, record, options) {
-      hash[pluralize(type.typeKey)] = [ this.serialize(record, options) ];
+      hash[pluralize(underscore(type.typeKey))] = [ this.serialize(record, options) ];
     },
     keyForAttribute: function(key) {
       return underscore(key);
