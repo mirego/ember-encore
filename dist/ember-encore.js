@@ -1,4 +1,4 @@
-/*! ember-encore - v0.0.11 - 2014-06-13
+/*! ember-encore - v0.0.12 - 2014-06-18
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -82,7 +82,7 @@
         var value = hash.links[link];
         var newKey = camelize(link);
         if (value && value.href) {
-          var model = Ember.String.singularize(camelize(value.type));
+          var model = singularize(camelize(value.type));
           if (store.getById(model, value.id)) {
             hash[newKey] = value.id;
             delete hash.links[link];
@@ -100,7 +100,11 @@
     },
     extractLinked: function(hash) {
       for (var link in hash.linked) {
-        hash[link] = hash.linked[link];
+        if (hash[link]) {
+          hash["_" + link] = hash.linked[link];
+        } else {
+          hash[link] = hash.linked[link];
+        }
       }
       delete hash.linked;
     },
