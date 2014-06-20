@@ -3,21 +3,28 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    concat: {
-      dist: {
-        src: ['lib/initializer.js', 'lib/adapter.js', 'lib/serializer.js'],
-        dest: 'dist/ember-encore.js',
-      },
+    clean: ['tmp', 'dist'],
+
+    transpile: {
+      amd: {
+        type: 'amd',
+        files: [{
+          expand: true,
+          cwd: 'lib/',
+          src: ['*.js'],
+          dest: 'tmp/'
+        }],
+
+        moduleName: function(moduleName) {
+          return 'ember-encore/' + moduleName;
+        }
+      }
     },
 
-    umd: {
-      all: {
-        src: 'dist/ember-encore.js',
+    concat: {
+      main: {
+        src: ['tmp/*.js'],
         dest: 'dist/ember-encore.js',
-        objectToExport: 'EmberEncore',
-        amdModuleId: 'ember-encore',
-        globalAlias: 'EmberEncore',
-        deps: {}
       }
     },
 
@@ -45,9 +52,6 @@ module.exports = function(grunt) {
       },
       encore_min: {
         options: {
-          mangle: {
-            except: ['EmberEncore']
-          },
           compress: {
             drop_console: true
           }
@@ -59,8 +63,10 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['concat', 'umd', 'uglify:encore', 'uglify:encore_min']);
+  grunt.registerTask('default', ['clean', 'transpile', 'concat', 'uglify:encore', 'uglify:encore_min']);
 
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-es6-module-transpiler');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-umd');
   grunt.loadNpmTasks('grunt-contrib-uglify');
