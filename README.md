@@ -11,14 +11,14 @@
 
 First, you need to import the initializer to register EmberEncore with Ember:
 
-```
+```js
 // app.js
 import 'ember-encore/initializer';
 ```
 
 Then configure your application adapter to use EmberEncore:
 
-```
+```js
 // adapters/application.js
 import Adapter from 'ember-encore/adapter';
 export default Adapter.extend({
