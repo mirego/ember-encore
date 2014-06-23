@@ -42,17 +42,13 @@ define("ember-encore/initializer", [ "ember-encore/adapter", "ember-encore/seria
   });
 });
 
-define("ember-encore/serializer", [ "exports" ], function(__exports__) {
+define("ember-encore/mixins/extractor", [ "exports" ], function(__exports__) {
   "use strict";
-  var get = Ember.get;
-  var isNone = Ember.isNone;
   var isArray = Ember.isArray;
   var camelize = Ember.String.camelize;
   var underscore = Ember.String.underscore;
-  var classify = Ember.String.classify;
-  var pluralize = Ember.String.pluralize;
   var singularize = Ember.String.singularize;
-  __exports__["default"] = DS.RESTSerializer.extend({
+  __exports__["default"] = Ember.Mixin.create({
     camelizeKeys: function(hash) {
       for (var key in hash) {
         var newKey = camelize(key);
@@ -123,7 +119,18 @@ define("ember-encore/serializer", [ "exports" ], function(__exports__) {
         store.metaForType(type, meta);
       }
       delete payload.meta;
-    },
+    }
+  });
+});
+
+define("ember-encore/mixins/serializer", [ "exports" ], function(__exports__) {
+  "use strict";
+  var get = Ember.get;
+  var isNone = Ember.isNone;
+  var underscore = Ember.String.underscore;
+  var classify = Ember.String.classify;
+  var pluralize = Ember.String.pluralize;
+  __exports__["default"] = Ember.Mixin.create({
     serializeIntoHash: function(hash, type, record, options) {
       hash[pluralize(underscore(type.typeKey))] = [ this.serialize(record, options) ];
     },
@@ -146,4 +153,11 @@ define("ember-encore/serializer", [ "exports" ], function(__exports__) {
       delete json[relationship.key];
     }
   });
+});
+
+define("ember-encore/serializer", [ "ember-encore/mixins/extractor", "ember-encore/mixins/serializer", "exports" ], function(__dependency1__, __dependency2__, __exports__) {
+  "use strict";
+  var extractor = __dependency1__["default"];
+  var serializer = __dependency2__["default"];
+  __exports__["default"] = DS.RESTSerializer.extend(extractor, serializer);
 });
