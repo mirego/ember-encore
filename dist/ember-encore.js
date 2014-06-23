@@ -1,12 +1,13 @@
-/*! ember-encore - v1.0.0 - 2014-06-23
+/*! ember-encore - v1.1.0 - 2014-06-23
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
  * Licensed under the New BSD license */
 
-define("ember-encore/adapter", [ "exports" ], function(__exports__) {
+define("ember-encore/adapter", [ "ember-encore/mixins/adapter-callbacks", "exports" ], function(__dependency1__, __exports__) {
   "use strict";
-  __exports__["default"] = DS.RESTAdapter.extend({
+  var callbacks = __dependency1__["default"];
+  __exports__["default"] = DS.RESTAdapter.extend(callbacks, {
     defaultSerializer: "-encore",
     pathForType: function(type) {
       return Ember.String.pluralize(Ember.String.underscore(type));
@@ -40,6 +41,22 @@ define("ember-encore/initializer", [ "ember-encore/adapter", "ember-encore/seria
       }
     });
   });
+});
+
+define("ember-encore/mixins/adapter-callbacks", [ "exports" ], function(__exports__) {
+  "use strict";
+  var capitalize = Ember.String.capitalize;
+  __exports__["default"] = Ember.Mixin.create(function() {
+    var callbacks = [ "create", "update", "delete" ];
+    return callbacks.reduce(function(memo, callback) {
+      memo[callback + "Record"] = function(store, type, record) {
+        var callbackName = "will" + capitalize(callback);
+        if (Ember.canInvoke(record, callbackName)) record[callbackName]();
+        return this._super(store, type, record);
+      };
+      return memo;
+    }, {});
+  }());
 });
 
 define("ember-encore/mixins/extractor", [ "exports" ], function(__exports__) {
