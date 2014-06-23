@@ -1,29 +1,12 @@
-/*! ember-encore - v0.0.12 - 2014-06-18
+/*! ember-encore - v1.0.0 - 2014-06-23
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
  * Licensed under the New BSD license */
 
-(function(root, factory) {
-  if (typeof exports === "object") {
-    module.exports = factory();
-  } else if (typeof define === "function" && define.amd) {
-    define("ember-encore", [], factory);
-  } else {
-    root["EmberEncore"] = factory();
-  }
-})(this, function() {
-  var EmberEncore = {};
-  Ember.onLoad("Ember.Application", function(Application) {
-    Application.initializer({
-      name: "EmberEncore",
-      initialize: function(container) {
-        container.register("serializer:-encore", EmberEncore.Serializer);
-        container.register("adapter:-encore", EmberEncore.Adapter);
-      }
-    });
-  });
-  EmberEncore.Adapter = DS.RESTAdapter.extend({
+define("ember-encore/adapter", [ "exports" ], function(__exports__) {
+  "use strict";
+  __exports__["default"] = DS.RESTAdapter.extend({
     defaultSerializer: "-encore",
     pathForType: function(type) {
       return Ember.String.pluralize(Ember.String.underscore(type));
@@ -42,6 +25,25 @@
       }
     }
   });
+});
+
+define("ember-encore/initializer", [ "ember-encore/adapter", "ember-encore/serializer" ], function(__dependency1__, __dependency2__) {
+  "use strict";
+  var Adapter = __dependency1__["default"];
+  var Serializer = __dependency2__["default"];
+  Ember.onLoad("Ember.Application", function(Application) {
+    Application.initializer({
+      name: "ember-encore",
+      initialize: function(container) {
+        container.register("adapter:-encore", Adapter);
+        container.register("serializer:-encore", Serializer);
+      }
+    });
+  });
+});
+
+define("ember-encore/serializer", [ "exports" ], function(__exports__) {
+  "use strict";
   var get = Ember.get;
   var isNone = Ember.isNone;
   var isArray = Ember.isArray;
@@ -50,7 +52,7 @@
   var classify = Ember.String.classify;
   var pluralize = Ember.String.pluralize;
   var singularize = Ember.String.singularize;
-  EmberEncore.Serializer = DS.RESTSerializer.extend({
+  __exports__["default"] = DS.RESTSerializer.extend({
     camelizeKeys: function(hash) {
       for (var key in hash) {
         var newKey = camelize(key);
@@ -144,5 +146,4 @@
       delete json[relationship.key];
     }
   });
-  return EmberEncore;
 });

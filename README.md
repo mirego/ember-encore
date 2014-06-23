@@ -7,24 +7,30 @@
 
 ## Usage
 
-### With globals
+### With ember-cli
+
+First, you need to import the initializer to register EmberEncore with Ember:
 
 ```js
-App.ApplicationAdapter = EmberEncore.Adapter.extend();
+// app.js
+import 'ember-encore/initializer';
 ```
 
-### With ember-cli
+Then configure your application adapter to use EmberEncore:
 
 ```js
 // adapters/application.js
-export default EmberEncore.Adapter.extend();
+import Adapter from 'ember-encore/adapter';
+export default Adapter.extend({
+  // EmberEncore’s adapter extends the DS.RESTAdapter
+  // so you can use all the same options here
+});
 ```
 
 ## Building the library
 
 - Run `npm install -g grunt-cli` to install Grunt
 - Run `npm install` to install build dependencies
-- Increment version number in `bower.json` and `package.json`
 - Run `grunt`
 
 ## License
