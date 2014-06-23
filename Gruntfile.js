@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'lib/',
-          src: ['*.js'],
+          src: ['**/*.js'],
           dest: 'tmp/'
         }],
 
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 
     concat: {
       main: {
-        src: ['tmp/*.js'],
+        src: ['tmp/**/*.js'],
         dest: 'dist/ember-encore.js',
       }
     },

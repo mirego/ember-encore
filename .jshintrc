@@ -1,0 +1,24 @@
+{
+  "globals": {
+    "Ember": true,
+    "DS": true
+  },
+
+  "camelcase": true,
+  "eqnull": true,
+  "immed": true,
+  "latedef": true,
+  "maxcomplexity": 6,
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "trailing": true,
+  "undef": true,
+  "unused": "vars",
+
+  "debug": false,
+  "devel": false,
+
+  "esnext": true,
+  "browser": true
+}
