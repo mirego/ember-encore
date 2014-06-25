@@ -161,25 +161,32 @@ define("ember-encore/models/callbacks", [ "exports" ], function(__exports__) {
   "use strict";
   __exports__["default"] = function() {
     var capitalize = Ember.String.capitalize;
-    var callbacks = [ "update", "deleteRecord", "reload" ];
     var callbackFactory = function(callback) {
       return function() {
         var callbackName = "will" + capitalize(callback);
         if (Ember.canInvoke(this, callbackName)) this[callbackName]();
-        return this._super();
       };
     };
-    return callbacks.reduce(function(memo, callback) {
-      if (callback != "update") {
-        memo[callback] = callbackFactory(callback);
-      } else {
-        var callbackFunction = callbackFactory("update");
-        memo.save = function() {
-          if (!this.get("isNew")) callbackFunction();
-        };
+    return {
+      deleteRecord: function() {
+        callbackFactory("deleteRecord").apply(this, arguments);
+        return this._super();
+      },
+      reload: function() {
+        callbackFactory("reload").apply(this, arguments);
+        return this._super();
+      },
+      save: function() {
+        if (!this.get("isDeleted")) {
+          if (this.get("isNew")) {
+            callbackFactory("create").apply(this, arguments);
+          } else {
+            callbackFactory("update").apply(this, arguments);
+          }
+        }
+        return this._super();
       }
-      return memo;
-    }, {});
+    };
   }();
 });
 
