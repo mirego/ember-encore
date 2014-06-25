@@ -1,13 +1,12 @@
-/*! ember-encore - v1.1.0 - 2014-06-23
+/*! ember-encore - v1.1.0 - 2014-06-25
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
  * Licensed under the New BSD license */
 
-define("ember-encore/adapter", [ "ember-encore/mixins/adapter-callbacks", "exports" ], function(__dependency1__, __exports__) {
+define("ember-encore/adapter", [ "exports" ], function(__exports__) {
   "use strict";
-  var callbacks = __dependency1__["default"];
-  __exports__["default"] = DS.RESTAdapter.extend(callbacks, {
+  __exports__["default"] = DS.RESTAdapter.extend({
     defaultSerializer: "-encore",
     pathForType: function(type) {
       return Ember.String.pluralize(Ember.String.underscore(type));
@@ -28,35 +27,21 @@ define("ember-encore/adapter", [ "ember-encore/mixins/adapter-callbacks", "expor
   });
 });
 
-define("ember-encore/initializer", [ "ember-encore/adapter", "ember-encore/serializer" ], function(__dependency1__, __dependency2__) {
+define("ember-encore/initializer", [ "ember-encore/models/callbacks", "ember-encore/adapter", "ember-encore/serializer" ], function(__dependency1__, __dependency2__, __dependency3__) {
   "use strict";
-  var Adapter = __dependency1__["default"];
-  var Serializer = __dependency2__["default"];
+  var callbacks = __dependency1__["default"];
+  var Adapter = __dependency2__["default"];
+  var Serializer = __dependency3__["default"];
   Ember.onLoad("Ember.Application", function(Application) {
     Application.initializer({
       name: "ember-encore",
       initialize: function(container) {
+        DS.Model.reopen(callbacks);
         container.register("adapter:-encore", Adapter);
         container.register("serializer:-encore", Serializer);
       }
     });
   });
-});
-
-define("ember-encore/mixins/adapter-callbacks", [ "exports" ], function(__exports__) {
-  "use strict";
-  var capitalize = Ember.String.capitalize;
-  __exports__["default"] = Ember.Mixin.create(function() {
-    var callbacks = [ "create", "update", "delete" ];
-    return callbacks.reduce(function(memo, callback) {
-      memo[callback + "Record"] = function(store, type, record) {
-        var callbackName = "will" + capitalize(callback);
-        if (Ember.canInvoke(record, callbackName)) record[callbackName]();
-        return this._super(store, type, record);
-      };
-      return memo;
-    }, {});
-  }());
 });
 
 define("ember-encore/mixins/extractor", [ "exports" ], function(__exports__) {
@@ -170,6 +155,32 @@ define("ember-encore/mixins/serializer", [ "exports" ], function(__exports__) {
       delete json[relationship.key];
     }
   });
+});
+
+define("ember-encore/models/callbacks", [ "exports" ], function(__exports__) {
+  "use strict";
+  __exports__["default"] = function() {
+    var capitalize = Ember.String.capitalize;
+    var callbacks = [ "update", "deleteRecord", "reload" ];
+    var callbackFactory = function(callback) {
+      return function() {
+        var callbackName = "will" + capitalize(callback);
+        if (Ember.canInvoke(this, callbackName)) this[callbackName]();
+        return this._super();
+      };
+    };
+    return callbacks.reduce(function(memo, callback) {
+      if (callback != "update") {
+        memo[callback] = callbackFactory(callback);
+      } else {
+        var callbackFunction = callbackFactory("update");
+        memo.save = function() {
+          if (!this.get("isNew")) callbackFunction();
+        };
+      }
+      return memo;
+    }, {});
+  }();
 });
 
 define("ember-encore/serializer", [ "ember-encore/mixins/extractor", "ember-encore/mixins/serializer", "exports" ], function(__dependency1__, __dependency2__, __exports__) {
