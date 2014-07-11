@@ -1,4 +1,4 @@
-/*! ember-encore - v1.1.0 - 2014-06-25
+/*! ember-encore - v1.1.0 - 2014-07-11
  * http://github.com/mirego/ember-encore
  *
  * Copyright (c) 2014 Mirego <http://mirego.com>;
@@ -178,6 +178,7 @@ define("ember-encore/models/callbacks", [ "exports" ], function(__exports__) {
       },
       save: function() {
         if (!this.get("isDeleted")) {
+          callbackFactory("save").apply(this, arguments);
           if (this.get("isNew")) {
             callbackFactory("create").apply(this, arguments);
           } else {
