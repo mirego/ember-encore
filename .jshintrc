@@ -1,9 +1,4 @@
 {
-  "globals": {
-    "Ember": true,
-    "DS": true
-  },
-
   "camelcase": true,
   "eqnull": true,
   "immed": true,

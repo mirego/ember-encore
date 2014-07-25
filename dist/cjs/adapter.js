@@ -1,7 +1,8 @@
-import Ember from 'ember';
-import DS from 'ember-data';
+"use strict";
+var Ember = require("ember")["default"] || require("ember");
+var DS = require("ember-data")["default"] || require("ember-data");
 
-export default DS.RESTAdapter.extend({
+exports["default"] = DS.RESTAdapter.extend({
   defaultSerializer: '-encore',
 
   pathForType: function(type) {
@@ -14,7 +15,7 @@ export default DS.RESTAdapter.extend({
 
     if (jqXHR && jqXHR.status === 422) {
       var errors = data.errors.reduce(function(memo, errorGroup) {
-        memo[errorGroup.field] = errorGroup.types;
+        memo[errorGroup.field] = errorGroup.types[0];
         return memo;
       }, {});
 

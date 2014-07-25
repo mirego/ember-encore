@@ -1,4 +1,5 @@
-import Ember from 'ember';
+"use strict";
+var Ember = require("ember")["default"] || require("ember");
 
 var get = Ember.get;
 var isNone = Ember.isNone;
@@ -6,7 +7,7 @@ var underscore = Ember.String.underscore;
 var classify = Ember.String.classify;
 var pluralize = Ember.String.pluralize;
 
-export default Ember.Mixin.create({
+exports["default"] = Ember.Mixin.create({
   serializeIntoHash: function(hash, type, record, options) {
     hash[pluralize(underscore(type.typeKey))] = [this.serialize(record, options)];
   },

@@ -7,7 +7,9 @@
   ],
   "description": "EmberEncore is an adapter and a serializer to use with the Encore gem.",
   "main": "dist/ember-encore.js",
-  "moduleType": ["amd"],
+  "moduleType": [
+    "amd"
+  ],
   "keywords": [
     "ember",
     "encore"
@@ -15,9 +17,10 @@
   "license": "BSD 3-Clause",
   "ignore": [
     "**/.*",
-    "Gruntfile.js",
+    "Brocfile.js",
     "package.json",
     "lib",
     "node_modules"
-  ]
+  ],
+  "devDependencies": {}
 }

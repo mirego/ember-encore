@@ -1,6 +1,7 @@
-import Ember from 'ember';
+"use strict";
+var Ember = require("ember")["default"] || require("ember");
 
-export default (function() {
+exports["default"] = (function() {
   var capitalize = Ember.String.capitalize;
 
   var callbackFactory = function(callback) {

@@ -1,11 +1,12 @@
-import Ember from 'ember';
+"use strict";
+var Ember = require("ember")["default"] || require("ember");
 
 var isArray = Ember.isArray;
 var camelize = Ember.String.camelize;
 var underscore = Ember.String.underscore;
 var singularize = Ember.String.singularize;
 
-export default Ember.Mixin.create({
+exports["default"] = Ember.Mixin.create({
   camelizeKeys: function(hash) {
     for (var key in hash) {
       var newKey = camelize(key);

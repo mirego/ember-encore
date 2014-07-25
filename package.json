@@ -13,10 +13,7 @@
     "url": "https://github.com/mirego/ember-encore/issues"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-concat": "^0.4.0",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-es6-module-transpiler": "^0.6.0"
+    "broccoli": "^0.12.3",
+    "broccoli-dist-es6-module": "^0.2.0"
   }
 }
