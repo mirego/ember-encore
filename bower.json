@@ -11,12 +11,5 @@
     "ember",
     "encore"
   ],
-  "license": "BSD 3-Clause",
-  "ignore": [
-    "**/.*",
-    "Brocfile.js",
-    "package.json",
-    "node_modules"
-  ],
-  "devDependencies": {}
+  "license": "BSD 3-Clause"
 }
