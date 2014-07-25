@@ -2,7 +2,7 @@
   "name": "ember-encore",
   "version": "1.1.0",
   "description": "EmberEncore is an adapter and a serializer to use with the Encore gem.",
-  "main": "dist/ember-encore.js",
+  "main": "dist/named-amd/main.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/mirego/ember-encore.git"

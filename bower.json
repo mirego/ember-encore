@@ -7,9 +7,6 @@
   ],
   "description": "EmberEncore is an adapter and a serializer to use with the Encore gem.",
   "main": "dist/named-amd/main.js",
-  "moduleType": [
-    "amd"
-  ],
   "keywords": [
     "ember",
     "encore"
@@ -19,7 +16,6 @@
     "**/.*",
     "Brocfile.js",
     "package.json",
-    "lib",
     "node_modules"
   ],
   "devDependencies": {}
