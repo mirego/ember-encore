@@ -6,7 +6,7 @@
     "Charles Demers <cdemers@mirego.com>"
   ],
   "description": "EmberEncore is an adapter and a serializer to use with the Encore gem.",
-  "main": "dist/ember-encore.js",
+  "main": "dist/named-amd/main.js",
   "moduleType": [
     "amd"
   ],
