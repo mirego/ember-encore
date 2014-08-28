@@ -30,23 +30,36 @@ exports["default"] = DS.RESTAdapter.extend({
 },{}],2:[function(_dereq_,module,exports){
 "use strict";
 var DS = window.DS["default"] || window.DS;
-var callbacks = _dereq_("./models/callbacks")["default"] || _dereq_("./models/callbacks");
 var Adapter = _dereq_("./adapter")["default"] || _dereq_("./adapter");
 var Serializer = _dereq_("./serializer")["default"] || _dereq_("./serializer");
-var Ember = window.Ember["default"] || window.Ember;
+var callbacks = _dereq_("./models/callbacks")["default"] || _dereq_("./models/callbacks");
 
-Ember.Application.initializer({
+exports["default"] = {
   name: 'ember-encore',
   initialize: function(container) {
     DS.Model.reopen(callbacks);
     container.register('adapter:-encore', Adapter);
     container.register('serializer:-encore', Serializer);
   }
+};
+},{"./adapter":1,"./models/callbacks":6,"./serializer":7}],3:[function(_dereq_,module,exports){
+"use strict";
+var Ember = window.Ember["default"] || window.Ember;
+var Adapter = _dereq_("./adapter")["default"] || _dereq_("./adapter");
+var Serializer = _dereq_("./serializer")["default"] || _dereq_("./serializer");
+var initializer = _dereq_("./initializer")["default"] || _dereq_("./initializer");
+
+Ember.onLoad('Ember.Application', function(Application) {
+  Application.initializer(initializer);
 });
+
+if (Ember.libraries) {
+  Ember.libraries.register('ember-encore', '1.1.0');
+}
 
 exports.Adapter = Adapter;
 exports.Serializer = Serializer;
-},{"./adapter":1,"./models/callbacks":5,"./serializer":6}],3:[function(_dereq_,module,exports){
+},{"./adapter":1,"./initializer":2,"./serializer":7}],4:[function(_dereq_,module,exports){
 "use strict";
 var Ember = window.Ember["default"] || window.Ember;
 
@@ -152,7 +165,7 @@ exports["default"] = Ember.Mixin.create({
     delete payload.meta;
   }
 });
-},{}],4:[function(_dereq_,module,exports){
+},{}],5:[function(_dereq_,module,exports){
 "use strict";
 var Ember = window.Ember["default"] || window.Ember;
 
@@ -192,7 +205,7 @@ exports["default"] = Ember.Mixin.create({
     delete json[relationship.key];
   }
 });
-},{}],5:[function(_dereq_,module,exports){
+},{}],6:[function(_dereq_,module,exports){
 "use strict";
 var Ember = window.Ember["default"] || window.Ember;
 
@@ -232,13 +245,13 @@ exports["default"] = (function() {
     }
   };
 })();
-},{}],6:[function(_dereq_,module,exports){
+},{}],7:[function(_dereq_,module,exports){
 "use strict";
 var DS = window.DS["default"] || window.DS;
 var extractor = _dereq_("./mixins/extractor")["default"] || _dereq_("./mixins/extractor");
 var serializer = _dereq_("./mixins/serializer")["default"] || _dereq_("./mixins/serializer");
 
 exports["default"] = DS.RESTSerializer.extend(extractor, serializer);
-},{"./mixins/extractor":3,"./mixins/serializer":4}]},{},[2])
-(2)
+},{"./mixins/extractor":4,"./mixins/serializer":5}]},{},[3])
+(3)
 });

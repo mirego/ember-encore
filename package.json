@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "broccoli": "^0.12.3",
-    "broccoli-dist-es6-module": "^0.2.0"
+    "broccoli-dist-es6-module": "mirego/broccoli-dist-es6-module",
+    "broccoli-replace": "^0.1.7"
   }
 }

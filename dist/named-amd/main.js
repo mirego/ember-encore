@@ -30,24 +30,40 @@ define("ember-encore/adapter",
       }
     });
   });
-define("ember-encore",
-  ["ember-data","./models/callbacks","./adapter","./serializer","ember","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __exports__) {
+define("ember-encore/initializer",
+  ["ember-data","./adapter","./serializer","./models/callbacks","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __exports__) {
     "use strict";
     var DS = __dependency1__["default"] || __dependency1__;
-    var callbacks = __dependency2__["default"] || __dependency2__;
-    var Adapter = __dependency3__["default"] || __dependency3__;
-    var Serializer = __dependency4__["default"] || __dependency4__;
-    var Ember = __dependency5__["default"] || __dependency5__;
+    var Adapter = __dependency2__["default"] || __dependency2__;
+    var Serializer = __dependency3__["default"] || __dependency3__;
+    var callbacks = __dependency4__["default"] || __dependency4__;
 
-    Ember.Application.initializer({
+    __exports__["default"] = {
       name: 'ember-encore',
       initialize: function(container) {
         DS.Model.reopen(callbacks);
         container.register('adapter:-encore', Adapter);
         container.register('serializer:-encore', Serializer);
       }
+    };
+  });
+define("ember-encore",
+  ["ember","./adapter","./serializer","./initializer","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"] || __dependency1__;
+    var Adapter = __dependency2__["default"] || __dependency2__;
+    var Serializer = __dependency3__["default"] || __dependency3__;
+    var initializer = __dependency4__["default"] || __dependency4__;
+
+    Ember.onLoad('Ember.Application', function(Application) {
+      Application.initializer(initializer);
     });
+
+    if (Ember.libraries) {
+      Ember.libraries.register('ember-encore', '1.1.0');
+    }
 
     __exports__.Adapter = Adapter;
     __exports__.Serializer = Serializer;
