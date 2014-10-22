@@ -15,7 +15,7 @@ exports["default"] = DS.RESTAdapter.extend({
 
     if (jqXHR && jqXHR.status === 422) {
       var errors = data.errors.reduce(function(memo, errorGroup) {
-        memo[errorGroup.field] = errorGroup.types[0];
+        memo[errorGroup.field] = errorGroup.types;
         return memo;
       }, {});
 
