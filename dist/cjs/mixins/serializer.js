@@ -25,6 +25,10 @@ exports["default"] = Ember.Mixin.create({
     if (!json.links) json.links = {};
     json.links[underscore(key)] = isNone(belongsTo) ? null : get(belongsTo, 'id');
 
+    if (relationship.options.polymorphic) {
+      this.serializePolymorphicType(record, json, relationship);
+    }
+
     delete json[key];
   },
 
