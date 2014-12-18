@@ -73,7 +73,7 @@ exports["default"] = Ember.Mixin.create({
     for (var key in hash) {
       var newKey = camelize(key);
 
-      if (newKey != key) {
+      if (newKey !== key) {
         hash[newKey] = hash[key];
         delete hash[key];
       }
@@ -107,31 +107,49 @@ exports["default"] = Ember.Mixin.create({
 
   extractLinks: function(store, type, hash) {
     for (var link in hash.links) {
-      var value = hash.links[link];
-      var newKey = camelize(link);
-
-      // Support async relationships
-      if (value && value.href) {
-
-        // If we already have the model, just link it
-        var model = singularize(camelize(value.type));
-        if (store.getById(model, value.id)) {
-          hash[newKey] = value.id;
-          delete hash.links[link];
-
-        } else {
-          var namespace = type.store.adapterFor(type).namespace;
-          hash.links[newKey] = '/' + namespace + value.href;
-          if (newKey != link) delete hash.links[link];
-        }
-
-      } else {
-        hash[newKey] = hash.links[link];
-        delete hash.links[link];
-      }
+      this.extractSingleLink(store, type, hash, link);
     }
 
     if (Ember.keys(hash.links).length === 0) delete hash.links;
+  },
+
+  extractSingleLink: function(store, type, hash, link) {
+    var newKey = camelize(link);
+    var value = hash.links[link];
+
+    var relationships = Ember.get(type, 'relationshipsByName');
+    var relationship = relationships.get(newKey);
+    var relationshipIsPolymorphic = relationship && relationship.options.polymorphic;
+
+    if (value && value.href) {
+      // If we already have the model, just link it
+      var model = singularize(camelize(value.type));
+      if (store.getById(model, value.id)) {
+        this.extractSingleIdLink(hash, link, newKey, value.id, relationshipIsPolymorphic);
+      } else {
+        var namespace = type.store.adapterFor(type).namespace;
+        hash.links[newKey] = '/' + namespace + value.href;
+        if (newKey !== link) delete hash.links[link];
+      }
+
+    } else {
+      this.extractSingleIdLink(hash, link, newKey, value, relationshipIsPolymorphic);
+    }
+
+    if (relationshipIsPolymorphic) delete hash[link + '_type'];
+  },
+
+  extractSingleIdLink: function(hash, link, newKey, id, relationshipIsPolymorphic) {
+    if (relationshipIsPolymorphic) {
+      hash[newKey] = {
+        id: id,
+        type: hash[link + '_type']
+      };
+    } else {
+      hash[newKey] = id;
+    }
+
+    delete hash.links[link];
   },
 
   extractLinked: function(hash) {
