@@ -118,7 +118,7 @@ define(
         for (var key in payload.meta) {
           var meta = payload.meta[key];
           this.camelizeKeys(meta);
-          store.metaForType(type, meta);
+          store.setMetaDataFor(type, meta);
         }
 
         delete payload.meta;
