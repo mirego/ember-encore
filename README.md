@@ -1,3 +1,7 @@
+[DEPRECATION NOTICE] This project is no longer maintained.
+
+We strongly suggest you migrate your app to [ember-cli-encore](https://github.com/mirego/ember-cli-encore).
+
 # EmberEncore
 
 [![Bower version](https://badge.fury.io/bo/ember-encore.svg)](http://badge.fury.io/bo/ember-encore)
